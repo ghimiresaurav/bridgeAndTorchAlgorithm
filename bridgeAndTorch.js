@@ -38,11 +38,11 @@ const solve = (original) => {
     //extract the first value from the array and assign them into t1 and t2
 
     if (loopIterationCount % 2 == 0) {
-      (t1 = original.splice(original.indexOf(original.min()), 1)[0]),
-        (t2 = original.splice(original.indexOf(original.min()), 1)[0]);
+      t1 = original.splice(original.indexOf(original.min()), 1)[0];
+      t2 = original.splice(original.indexOf(original.min()), 1)[0];
     } else {
-      (t1 = original.splice(original.indexOf(original.max()), 1)[0]),
-        (t2 = original.splice(original.indexOf(original.max()), 1)[0]);
+      t1 = original.splice(original.indexOf(original.max()), 1)[0];
+      t2 = original.splice(original.indexOf(original.max()), 1)[0];
     }
 
     travellers.push(t1, t2);
