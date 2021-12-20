@@ -14,22 +14,21 @@ Array.prototype.min = function () {
   return min;
 };
 
-Array.prototype.travel = function () {
-  timeConsumed += this.max();
-};
-
 Array.prototype.alight = function (destination) {
   destination.push(...this);
   this.length = 0;
 };
 
-let timeConsumed = 0;
-
 const solve = (original) => {
+  Array.prototype.travel = function () {
+    timeConsumed += this.max();
+  };
+
   const SIZE = original.length;
   let travellers = [],
     inOtherSide = [],
-    loopIterationCount = 0;
+    loopIterationCount = 0,
+    timeConsumed = 0;
 
   while (original.length !== 2 && inOtherSide.length !== SIZE - 2) {
     let t1, t2;
