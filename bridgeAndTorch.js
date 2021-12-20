@@ -1,78 +1,75 @@
-const getMax = (arr) => {
-  let max = arr[0];
-  arr.forEach((item) => {
-    if (item > max) max = item;
+Array.prototype.max = function () {
+  let max = this[0];
+  this.forEach((item) => {
+    if (max < item) max = item;
   });
   return max;
 };
 
-const getMin = (arr) => {
-  let min = arr[0];
-  arr.forEach((item) => {
+Array.prototype.min = function () {
+  let min = this[0];
+  this.forEach((item) => {
     if (item < min) min = item;
   });
   return min;
 };
 
-const or = [1, 2, 5, 10],
-  ne = [],
-  size = or.length;
+Array.prototype.travel = function () {
+  timeConsumed += this.max();
+};
+
+Array.prototype.alight = function (destination) {
+  destination.push(...this);
+  this.length = 0;
+};
+
 let timeConsumed = 0;
 
-const travel = (arr) => (timeConsumed += getMax(arr));
+const solve = (original) => {
+  const SIZE = original.length;
+  let travellers = [],
+    inOtherSide = [],
+    loopIterationCount = 0;
 
-// while(or.length !== 0 && ne.length !== size)
-{
-  const travellers = [];
-  travellers.push(getMin(or));
-  or.splice(or.indexOf(getMin(or)), 1);
+  while (original.length !== 2 && inOtherSide.length !== SIZE - 2) {
+    let t1, t2;
+    //get the min value from 'original' array, get that value's index
+    //remove that value from the array. this gives us an array.
+    //extract the first value from the array and assign them into t1 and t2
 
-  // console.log(travellers, or)
+    if (loopIterationCount % 2 == 0) {
+      (t1 = original.splice(original.indexOf(original.min()), 1)[0]),
+        (t2 = original.splice(original.indexOf(original.min()), 1)[0]);
+    } else {
+      (t1 = original.splice(original.indexOf(original.max()), 1)[0]),
+        (t2 = original.splice(original.indexOf(original.max()), 1)[0]);
+    }
 
-  travellers.push(getMin(or));
-  or.splice(or.indexOf(getMin(or)), 1);
+    travellers.push(t1, t2);
 
-  travel(travellers);
+    travellers.travel();
+    travellers.alight(inOtherSide);
+    // console.log(original, travellers, inOtherSide, timeConsumed)
 
-  ne.push(travellers[0]);
-  travellers.splice(0, 1);
-  ne.push(travellers[0]);
-  travellers.splice(0, 1);
+    //get min value from the other side and get its index in 'inOtherSide' array
+    //remove the value from the array and push into 'travellers' array
+    travellers.push(
+      inOtherSide.splice(inOtherSide.indexOf(inOtherSide.min()), 1)[0]
+    );
 
-  travellers.push(getMax(ne));
-  ne.splice(ne.indexOf(getMax(ne)), 1);
+    travellers.travel();
+    travellers.alight(original);
 
-  travel(travellers);
+    // console.log(original, travellers, inOtherSide, timeConsumed);
+    loopIterationCount++;
+  }
 
-  or.push(travellers[0]);
-  travellers.splice(0, 1);
+  travellers.push(original.splice(0, 1)[0], original.splice(0, 1)[0]);
+  travellers.travel();
+  travellers.alight(inOtherSide);
 
-  travellers.push(getMax(or));
-  or.splice(or.indexOf(getMax(or)), 1);
-  travellers.push(getMax(or));
-  or.splice(or.indexOf(getMax(or)), 1);
+  // console.log(original, travellers, inOtherSide, timeConsumed)
+  return timeConsumed;
+};
 
-  travel(travellers);
-
-  ne.push(travellers[0]);
-  travellers.splice(0, 1);
-  ne.push(travellers[0]);
-  travellers.splice(0, 1);
-
-  travellers.push(getMin(ne));
-  ne.splice(ne.indexOf(getMin(travellers)), 1);
-
-  travel(travellers);
-
-  or.push(travellers[0]);
-  travellers.splice(0, 1);
-
-  travellers.push(getMax(or));
-  or.splice(or.indexOf(travellers[0]), 1);
-  travellers.push(getMax(or));
-  or.splice(or.indexOf(travellers[0]), 1);
-
-  travel(travellers);
-
-  console.log(or, travellers, ne, timeConsumed);
-}
+console.log(solve([1, 2, 3, 4]));
