@@ -20,11 +20,13 @@ Array.prototype.alight = function (destination) {
 };
 
 const solve = (original) => {
+  const SIZE = original.length;
+  if (SIZE < 2) return "INAVLID PARAMETERS! Too few arguments.";
+
   Array.prototype.travel = function () {
     timeConsumed += this.max();
   };
 
-  const SIZE = original.length;
   let travellers = [],
     inOtherSide = [],
     loopIterationCount = 0,
@@ -71,4 +73,4 @@ const solve = (original) => {
   return timeConsumed;
 };
 
-console.log(solve([1, 2, 3, 4]));
+console.log(solve([1]));
