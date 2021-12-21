@@ -20,8 +20,13 @@ Array.prototype.alight = function (destination) {
 };
 
 const solve = (original) => {
+  // if (typeof original !== Array)
+  //   return "Invalid Input Type. Only Arrays of numbers can be passed.";
+
   const SIZE = original.length;
-  if (SIZE < 2) return "INAVLID PARAMETERS! Too few arguments.";
+
+  if (!SIZE) return "INAVLID PARAMETERS! Empty Arrays cannot be processed";
+  if (SIZE == 1) return original[0];
 
   Array.prototype.travel = function () {
     timeConsumed += this.max();
